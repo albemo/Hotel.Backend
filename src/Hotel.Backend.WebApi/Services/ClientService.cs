@@ -8,6 +8,7 @@ namespace Hotel.Backend.WebApi.Services
     {
         public ClientService(IRepository<Client> repository) : base(repository)
         {
+            // métodos transversales
         }
     }
 }

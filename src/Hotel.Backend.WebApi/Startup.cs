@@ -22,6 +22,7 @@ namespace Hotel.Backend.WebApi
         {
             services.AddCustomizedDataStore(_configuration);
             services.AddCustomizedRepository();
+            services.AddCustomizedServices();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

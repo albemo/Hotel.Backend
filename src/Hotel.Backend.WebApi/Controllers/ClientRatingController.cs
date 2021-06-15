@@ -52,11 +52,13 @@ namespace Hotel.Backend.WebApi.Controllers
                 Id = query.Id,
                 Comment = query.Comment,
                 Score = query.Score,
+                ClientId = query.ClientId,
                 Client = new ClientViewModel
                 {
                     Id = query.Client.Id,
                     Name = query.Client.Name
                 },
+                HotelId = query.HotelId,
                 Hotel = new HotelViewModel
                 {
                     Id = query.Hotel.Id,
@@ -67,6 +69,42 @@ namespace Hotel.Backend.WebApi.Controllers
             };
 
             return Ok(item);
+        }
+
+        [HttpGet("by-score/{score}")]
+        public async Task<IActionResult> GetAllByScore(int score)
+        {
+            var query = await _clientRatingService.QueryNoTracking()
+                .Include(x => x.Client)
+                .Include(x => x.Hotel)
+                .Where(x => x.Score == score)
+                .ToListAsync();
+
+            if (query == null)
+                return Ok(new List<ClientRatingViewModel>());
+
+            var items = query.Select(x => new ClientRatingViewModel
+            {
+                Id = x.Id,
+                Score = x.Score,
+                Comment = x.Comment,
+                HotelId = x.HotelId,
+                Hotel = new HotelViewModel
+                {
+                    Id = x.Hotel.Id,
+                    Name = x.Hotel.Name,
+                    Price = x.Hotel.Price,
+                    Category = x.Hotel.Category
+                },
+                ClientId = x.ClientId,
+                Client = new ClientViewModel
+                {
+                    Id = x.Client.Id,
+                    Name = x.Client.Name
+                }
+            }).ToList();
+
+            return Ok(items);
         }
 
         [HttpPost]

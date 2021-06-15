@@ -8,6 +8,7 @@ namespace Hotel.Backend.WebApi.Services
     {
         public ImageService(IRepository<Image> repository) : base(repository)
         {
+            // métodos transversales
         }
     }
 }

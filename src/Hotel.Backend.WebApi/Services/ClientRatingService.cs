@@ -8,6 +8,7 @@ namespace Hotel.Backend.WebApi.Services
     {
         public ClientRatingService(IRepository<ClientRating> repository) : base(repository)
         {
+            // métodos transversales
         }
     }
 }

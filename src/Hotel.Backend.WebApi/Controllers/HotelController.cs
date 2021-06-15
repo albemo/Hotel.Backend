@@ -1,4 +1,5 @@
-﻿using Hotel.Backend.Domain.Models;
+﻿using Hotel.Backend.Domain.Enums;
+using Hotel.Backend.Domain.Models;
 using Hotel.Backend.Domain.ViewModels;
 using Hotel.Backend.WebApi.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,81 @@ namespace Hotel.Backend.WebApi.Controllers
             };
 
             return Ok(item);
+        }
+
+        [HttpGet("by-category/{categoryId}")]
+        public async Task<IActionResult> GetAllByCategory(int categoryId)
+        {
+            var query = await _hotelService.QueryNoTracking()
+                .Include(x => x.ClientRatings)
+                .Include(x => x.Images)
+                .Where(x => x.Category == (Category)categoryId)
+                .ToListAsync();
+
+            if (query == null)
+                return Ok(new List<HotelViewModel>());
+
+            var items = query.Select(x => new HotelViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                Category = x.Category,
+                Images = x.Images.Select(x => new ImageViewModel
+                {
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    HotelId = x.HotelId
+                }).ToList(),
+                ClientRatings = x.ClientRatings.Select(y => new ClientRatingViewModel
+                {
+                    Id = y.Id,
+                    Comment = y.Comment,
+                    Score = y.Score,
+                    ClientId = y.ClientId,
+                    HotelId = y.HotelId
+                }).ToList()
+            }).ToList();
+
+            return Ok(items);
+        }
+
+        [HttpGet("by-price/{price}")]
+        public async Task<IActionResult> GetAllByPrice(double price)
+        {
+            var query = await _hotelService.QueryNoTracking()
+                .Include(x => x.ClientRatings)
+                .Include(x => x.Images)
+                .Where(x => x.Price == price)
+                .OrderByDescending(x => x.Price) // ordena por precio de mayor a menor
+                .ToListAsync();
+
+            if (query == null)
+                return Ok(new List<HotelViewModel>());
+
+            var items = query.Select(x => new HotelViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                Category = x.Category,
+                Images = x.Images.Select(x => new ImageViewModel
+                {
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    HotelId = x.HotelId
+                }).ToList(),
+                ClientRatings = x.ClientRatings.Select(y => new ClientRatingViewModel
+                {
+                    Id = y.Id,
+                    Comment = y.Comment,
+                    Score = y.Score,
+                    ClientId = y.ClientId,
+                    HotelId = y.HotelId
+                }).ToList()
+            }).ToList();
+
+            return Ok(items);
         }
 
         [HttpPost]

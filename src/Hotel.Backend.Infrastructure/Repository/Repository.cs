@@ -10,7 +10,6 @@ namespace Hotel.Backend.Infrastructure.Repository
     class Repository<T> : IRepository<T> where T : class
     {
         private readonly AppDbContext _dbContext;
-        public DbSet<T> DbSet{ get; }
 
         public Repository(AppDbContext dbContext)
         {
@@ -54,8 +53,8 @@ namespace Hotel.Backend.Infrastructure.Repository
             return true;
         }
 
-        public IQueryable<T> Query() => DbSet;
+        public IQueryable<T> Query() => _dbContext.Set<T>();
 
-        public IQueryable<T> QueryNoTracking() => DbSet.AsNoTracking();
+        public IQueryable<T> QueryNoTracking() => _dbContext.Set<T>().AsNoTracking();
     }
 }
