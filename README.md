@@ -14,7 +14,7 @@
 - Update the connection string in appsettings.json in Hotel.Backend.WebApi.
 - Build whole solution.
 - Open Package Manager Console Window and type "Update-Database" then press "Enter". This action will create database schema.
-- Executive staticdata.sql on the created database to insert seed data.
+- Run staticdata.sql on the created database to insert seed data.
 - In Visual Studio, press "Control + F5".
 
 ## Technologies and frameworks used:
