@@ -24,5 +24,5 @@
 ## The architecture highlight
 
 The Hotel.Backend.Api contains controllers, services
-The Hotel.Backend.Infrastructure contains the conexión to the database
-The Hotel.Backend.Core contains domain models
+The Hotel.Backend.Infrastructure contains the connection to the database and repository
+The Hotel.Backend.Domain contains domain models and business logic
