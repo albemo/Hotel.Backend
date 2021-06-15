@@ -10,8 +10,8 @@
 
 #### Steps to run
 
-- Open project in Vusual Studio,
-- Update the connection string in appsettings.json in Hotel.Backend.WebApi
+- Open project in Vusual Studio.
+- Update the connection string in appsettings.json in Hotel.Backend.WebApi.
 - Build whole solution.
 - Open Package Manager Console Window and type "Update-Database" then press "Enter". This action will create database schema.
 - Executive staticdata.sql on the created database to insert seed data.
